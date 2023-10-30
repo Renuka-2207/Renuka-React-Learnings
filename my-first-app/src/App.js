@@ -1,9 +1,10 @@
 import React from 'react';
+import MyButton from './Components/Assignment1/MyButton';
 
 function App() {
 	return (
 		<div>
-<h1> Hello World </h1>
+<MyButton/>
     </div>
   );
 }
