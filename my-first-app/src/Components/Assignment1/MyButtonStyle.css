@@ -1,0 +1,16 @@
+/*Styling the button*/
+
+button {
+  color:red;
+  background-color:yellow;
+  font-size:12pt;
+}
+
+/* Styling the button when receives focus. */
+
+button:focus {
+  color:green;
+  background-color:yellow;
+  font-size:18pt;
+  border:2px solid black;
+}
