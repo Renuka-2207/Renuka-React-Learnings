@@ -1,18 +1,23 @@
 import React from 'react';
 import MyButton from './Components/Assignment1/MyButton';
-import Input from './Components/Form/Input.js';
+import Form  from './Components/Form/Form.js';
 import Modal from './Components/Modal/Modal.js';
-
+import MyStyle from './Components/Assignment1/MyStyle.css';
 
 function App() {
+  const isModalVisible = false;
   return (
-    <div>
-      <MyButton/>
-      <Input/>
-      <Modal/>
-
-    </div>
+    <>
+      <div className = {isModalVisible ? "blur" : ""}>
+        <MyButton/>
+        <Form/>
+      </div>
+      <div>
+        <Modal/>
+      </div>
+    </>
   );
-}
+}  
+
 
 export default App;

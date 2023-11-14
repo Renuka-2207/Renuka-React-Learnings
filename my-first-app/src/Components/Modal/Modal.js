@@ -13,7 +13,7 @@ const Modal = () => {
   // Function to open the modal
   const openModal = () => {
     setModalVisible(true);
-    closeModalButton.focus();
+
   };
 
   // Function to close the modal
@@ -67,14 +67,14 @@ const Modal = () => {
   return (
     <>
       {/* Button to open the modal */}
-      <div>
+      <div className = {isModalVisible ?  "blur" :""}>
         <button className="open-btn" onClick={openModal}>
           Open Modal
         </button>
       </div>
 
       {/* Modal overlay with conditional display */}
-      <div className="modal-overlay" style={{ display: isModalVisible ? "block" : "none" }} role="dialog">
+      <div className="modal-overlay" style={{ display: isModalVisible ? "block" : "none" }} role="dialog" aria-modal ="true">
         {/* Modal content */}
         <div className="modal-content" ref={modalRef}>
           <h2>Modal Title</h2>
