@@ -6,9 +6,9 @@ const Modal = () => {
   // Ref to store a reference to the modal content
   const modalRef = useRef(null);
   // Reference to the close button
-  const closeModalButton = document.querySelector(".close-btn");
+
   // Reference to the open button
-  const openModalButton = document.querySelector(".open-btn");
+  const openModalButtonRef = useRef(null);
 
   // Function to open the modal
   const openModal = () => {
@@ -19,7 +19,7 @@ const Modal = () => {
   // Function to close the modal
   const closeModal = () => {
     setModalVisible(false);
-    openModalButton.focus();
+    openModalButtonRef.current.focus();
   };
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const Modal = () => {
     <>
       {/* Button to open the modal */}
       <div className = {isModalVisible ?  "blur" :""}>
-        <button className="open-btn" onClick={openModal}>
+        <button className="open-btn" onClick={openModal}ref = {openModalButtonRef}>
           Open Modal
         </button>
       </div>
@@ -79,7 +79,7 @@ const Modal = () => {
         <div className="modal-content" ref={modalRef}>
           <h2>Modal Title</h2>
           <p>This is a modal....</p>
-<a href = "www.youtube.com"> Youtube </a>
+<a href = "https://www.youtube.com"> Youtube </a>
           {/* Button to close the modal */}
           <button className="close-btn" onClick={closeModal}>
             Close Modal
