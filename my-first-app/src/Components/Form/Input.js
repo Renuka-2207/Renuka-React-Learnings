@@ -15,7 +15,7 @@ const Input = ({ label, id, type, placeholder, autoComplete, value, onChange, er
         aria-describedby={`${id}-error`}
       />
       {/* Display the error message if there is one */}
-      {errorMessage && <p aria-live = "polite" id={`${id}-error`}>{errorMessage}</p>}
+      {errorMessage && <p role = "alert" aria-live = "polite" id={`${id}-error`}>{errorMessage}</p>}
     </div>
   );
 };

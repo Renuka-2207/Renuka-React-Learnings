@@ -46,7 +46,7 @@ const Form = () => {
       return;
     }
 
-    setSuccessMessage("Form submitted successfully!");
+    setSuccessMessage("Your form has been submitted successfully, Thank you!");
     setFormData({
       fname: "",
       lname: "",
