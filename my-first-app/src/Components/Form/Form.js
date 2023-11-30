@@ -1,60 +1,130 @@
-import React, { useState } from 'react';
-import Input from './Input.js';
+import React, { useState, useRef, useEffect } from "react";
+import Input from "./Input";
 
 const Form = () => {
-  const [inputValues, setInputValues] =useState( {
-  fname: "",
+  const [formData, setFormData] = useState({
+    fname: "",
     lname: "",
+    email: "",
+  });
 
-});
-  const [errors, setErrors] = useState( {} );
- const [submitting, setSubmitting] = useState(false);
-  //Function to validate
-  const validateValues = (formData) => {
-    let errors = {};
-    if (formData.fname.length < 1) {
-      {errors.fname = "First Name field is required";
+  const [errors, setErrors] = useState({
+    fname: "",
+    lname: "",
+    email: "",
+  });
+
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const formRef = useRef();
+  const successMessageRef = useRef();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const { fname, lname, email } = formData;
+    const newErrors = {};
+
+    if (!fname.trim()) {
+      newErrors.fname = "First Name is required";
     }
-    if (formData.lname.length < 1) {
-      errors.lname = "Last name field is required" ;
+
+    if (!lname.trim()) {
+      newErrors.lname = "Last Name is required";
     }
-    return errors;
+
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!isValidEmail(email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setSuccessMessage("Form submitted successfully!");
+    setFormData({
+      fname: "",
+      lname: "",
+      email: "",
+    });
+    setErrors({});
+    formRef.current.reset();
+    setFormSubmitted(true);
+
   };
-  //on change event handler
-  const handleChange = (e) => {
-    setInputValues( {
-      ...inputValues, [e.target.name] :e.target.value 
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: value,
+    });
+
+    setErrors({
+      ...errors,
+      [id]: "",
     });
   };
-  //submit function
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setErrors(validateValues(inputValues));
-    setSubmitting(true);
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
+  
   return (
-    <form onSubmit = {handleSubmit}>
-            {/* Use the custom Input component for the all the form fields */}
-      <Input label="First Name" id="fname" type="text" placeholder="Enter your first name" autoComplete="given-name" value = {inputValues.fname} onChange = {handleChange}/>
-      <br/><br/>
+    !formSubmitted ? (
+      <form onSubmit={handleSubmit} ref={formRef}>
+        <div>
+          <Input
+            label="First Name *"
+            id="fname"
+            type="text"
+            placeholder="Enter your first name"
+            autoComplete="given-name"
+            value={formData.fname}
+            onChange={handleInputChange}
+            errorMessage={errors.fname}
+          />
+        </div>
 
-      <Input label="Last Name" id="lname" type="text" placeholder="Enter your last name" autoComplete="family-name" value = {inputValues.lname} onChange = {handleChange}/>
-      <br/><br/>
+        <div>
+          <Input
+            label="Last Name *"
+            id="lname"
+            type="text"
+            placeholder="Enter your last name"
+            autoComplete="family-name"
+            value={formData.lname}
+            onChange={handleInputChange}
+            errorMessage={errors.lname}
+          />
+        </div>
 
-      <Input label="Contact Number" id="phone" type="tel" placeholder="Enter your mobile number" autoComplete="tel"/>
-      <br/><br/>
+        <div>
+          <Input
+            label="Email *"
+            id="email"
+            type="email"
+            placeholder="Enter your email id"
+            autoComplete="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            errorMessage={errors.email}
+          />
+        </div>
 
-      <Input label="Email" id="email" type="email" placeholder="Enter your email id" autoComplete="email" />
-      <br/><br/>
-
-      <Input label="Password" id="password" type="password" placeholder="Enter your password" autoComplete="new-password" />
-      <br/><br/>
-
-      <input id="submit" type="submit" value="Submit" />
-    </form>
+        <input id="submit" type="submit" value="Submit" />
+      </form>
+    ) : (
+      <p ref = {successMessageRef} id="success-message" aria-live = "polite">{successMessage}</p>
+    )
   );
 };
-
 
 export default Form;
